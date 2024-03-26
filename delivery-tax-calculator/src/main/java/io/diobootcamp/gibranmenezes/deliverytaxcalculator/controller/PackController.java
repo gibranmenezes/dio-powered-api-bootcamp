@@ -8,20 +8,18 @@ import java.util.List;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackDetailDTO;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackRegistrationDTO;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackUpDateDTO;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.PackService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -55,6 +53,20 @@ public class PackController {
         var uri = uriBuilder.path("/packs/{id}").buildAndExpand(pack.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new PackDetailDTO(pack));
+    }
+
+    @PutMapping
+    public ResponseEntity modifyPack(@RequestBody PackUpDateDTO data) {
+        var pack = packService.updatePack(data);
+        return ResponseEntity.ok(new PackDetailDTO(pack));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity removePack(@PathVariable Long id) {
+        var pack = packService.findPack(id);
+        packService.removePack(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 

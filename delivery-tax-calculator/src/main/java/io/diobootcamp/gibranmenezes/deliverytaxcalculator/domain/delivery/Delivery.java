@@ -3,10 +3,12 @@ package io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.ArrayList;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.enums.DeliveryType;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.Pack;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryModel implements Serializable {
+public class Delivery implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
@@ -36,13 +38,24 @@ public class DeliveryModel implements Serializable {
 
     private String recieverUF;
 
-    private DeliveryType typeSent;
+    private DeliveryType deliveryType;
 
     private BigDecimal deliveryTax;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="pack_id")
-    private List<Pack> packs;
+    private List<Pack> packs = new ArrayList<>();
+
+    public Delivery(DeliveryRegistrationDTO data) {
+        this.senderUF = data.senderUF();
+        this.recieverUF = data.recieverUF();
+        this.deliveryType = data.deliveryType();
+    }
+
+    
+    public void addPack(Pack pack){
+        this.packs.add(pack);
+    }
 
 
 }

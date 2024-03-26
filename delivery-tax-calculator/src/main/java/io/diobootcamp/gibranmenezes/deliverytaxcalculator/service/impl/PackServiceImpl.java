@@ -2,9 +2,6 @@ package io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.impl;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.jaxb.PageAdapter;
 import org.springframework.stereotype.Service;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.Pack;
@@ -35,6 +32,7 @@ public class PackServiceImpl implements PackService{
     public List<Pack> listAll() {
         return packRepository.findAll();
     }
+    
 
     @Override
     public Pack findPack(long id) {
@@ -44,8 +42,8 @@ public class PackServiceImpl implements PackService{
 
     @Override
     @Transactional
-    public Pack updatePack(long id, PackUpDateDTO data) {
-        Pack pack = packRepository.getReferenceById(id);
+    public Pack updatePack(PackUpDateDTO data) {
+        Pack pack = packRepository.getReferenceById(data.id());
         attributeValidators.forEach(v -> v.validate(data, pack));        
         var updatedPack = packRepository.save(pack);
         return updatedPack;
@@ -55,6 +53,11 @@ public class PackServiceImpl implements PackService{
     @Transactional
     public void removePack(long id) {
         packRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<Pack> findAllById(List<Long> packIds) {
+        return packRepository.findAllById(packIds);  
     }
 
 }

@@ -1,0 +1,19 @@
+{
+    "senderUF": "SP",
+    "recieverUF": "RJ",
+    "deliveryType": "EXPRESS",
+    "packs": [
+      {
+        "height": 10.5,
+        "width": 8.2,
+        "length": 15.0,
+        "weight": 2.3
+      },
+      {
+        "height": 20.0,
+        "width": 12.0,
+        "length": 18.5,
+        "weight": 4.7
+      }
+    ]
+  }

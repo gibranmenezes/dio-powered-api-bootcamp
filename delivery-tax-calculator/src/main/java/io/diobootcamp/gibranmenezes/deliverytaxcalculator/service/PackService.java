@@ -11,9 +11,11 @@ public interface PackService {
 
     List<Pack> listAll();
 
+    List<Pack> findAllById(List<Long> packIds);
+
     Pack findPack(long id);
 
-    Pack updatePack(long id, PackUpDateDTO data);
+    Pack updatePack(PackUpDateDTO data);
 
     void removePack(long id);
 
