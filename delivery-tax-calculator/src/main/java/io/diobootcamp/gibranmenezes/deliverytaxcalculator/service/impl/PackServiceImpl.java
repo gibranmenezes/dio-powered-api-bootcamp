@@ -1,6 +1,10 @@
 package io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.impl;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.jaxb.PageAdapter;
 import org.springframework.stereotype.Service;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.Pack;
@@ -9,6 +13,7 @@ import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackUpDate
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.repository.PackRepository;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.PackService;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.utils.validations.pack.atributesvalidation.PackAttributesValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,9 +25,10 @@ public class PackServiceImpl implements PackService{
     private final List<PackAttributesValidator> attributeValidators;
 
     @Override
-    public void register(PackRegistrationDTO data) {
+    @Transactional
+    public Pack register(PackRegistrationDTO data) {
         var pack = new Pack(data);
-        packRepository.save(pack);
+        return packRepository.save(pack);
     }
 
     @Override
@@ -37,6 +43,7 @@ public class PackServiceImpl implements PackService{
     }
 
     @Override
+    @Transactional
     public Pack updatePack(long id, PackUpDateDTO data) {
         Pack pack = packRepository.getReferenceById(id);
         attributeValidators.forEach(v -> v.validate(data, pack));        
@@ -45,6 +52,7 @@ public class PackServiceImpl implements PackService{
     }
 
     @Override
+    @Transactional
     public void removePack(long id) {
         packRepository.getReferenceById(id);
     }
