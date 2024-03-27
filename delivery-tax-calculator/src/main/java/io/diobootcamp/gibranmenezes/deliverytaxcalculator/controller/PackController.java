@@ -6,8 +6,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 
-import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackDetailDTO;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackDetailResponse;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackRegistrationDTO;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackRegistrationRequest;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackUpDateDTO;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.PackService;
 import lombok.RequiredArgsConstructor;
@@ -27,38 +28,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class PackController {
 
-    public final PackService packService;
-
-    
+    public final PackService packService;    
 
     @GetMapping("/{id}")     
-    public ResponseEntity getPack(@PathVariable Long id) {
+    public ResponseEntity<PackDetailResponse> getPack(@PathVariable Long id) {
         var pack = packService.findPack(id);
-        return ResponseEntity.ok(new PackDetailDTO(pack));
+        return ResponseEntity.ok(new PackDetailResponse(pack));
     }
 
     @GetMapping
-    public ResponseEntity<List<PackDetailDTO>> getAllPacks(){
+    public ResponseEntity<List<PackDetailResponse>> getAllPacks(){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(packService.listAll()
                 .stream()
-                .map(PackDetailDTO::new)
+                .map(PackDetailResponse::new)
                 .toList()
                 );
     }
 
     @PostMapping
-    public ResponseEntity createPack(@RequestBody PackRegistrationDTO data, UriComponentsBuilder uriBuilder){
+    public ResponseEntity createPack(@RequestBody PackRegistrationRequest data, UriComponentsBuilder uriBuilder){
         var pack = packService.register(data);
         var uri = uriBuilder.path("/packs/{id}").buildAndExpand(pack.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new PackDetailDTO(pack));
+        return ResponseEntity.created(uri).body(new PackDetailResponse(pack));
     }
 
     @PutMapping
     public ResponseEntity modifyPack(@RequestBody PackUpDateDTO data) {
         var pack = packService.updatePack(data);
-        return ResponseEntity.ok(new PackDetailDTO(pack));
+        return ResponseEntity.ok(new PackDetailResponse(pack));
     }
 
     @DeleteMapping("/{id}")

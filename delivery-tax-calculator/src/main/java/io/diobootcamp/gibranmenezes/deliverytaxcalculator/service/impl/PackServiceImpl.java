@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.Pack;
-import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackRegistrationDTO;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackRegistrationRequest;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack.PackUpDateDTO;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.repository.PackRepository;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.PackService;
@@ -23,7 +23,7 @@ public class PackServiceImpl implements PackService{
 
     @Override
     @Transactional
-    public Pack register(PackRegistrationDTO data) {
+    public Pack register(PackRegistrationRequest data) {
         var pack = new Pack(data);
         return packRepository.save(pack);
     }
@@ -55,6 +55,7 @@ public class PackServiceImpl implements PackService{
         packRepository.getReferenceById(id);
     }
 
+    @SuppressWarnings("null")
     @Override
     public List<Pack> findAllById(List<Long> packIds) {
         return packRepository.findAllById(packIds);  

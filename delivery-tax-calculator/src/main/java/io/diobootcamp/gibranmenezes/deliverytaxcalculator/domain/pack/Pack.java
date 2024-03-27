@@ -2,13 +2,15 @@ package io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.pack;
 
 import java.io.Serializable;
 
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.Delivery;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Pack implements Serializable {
 
     private static final long serialVersionUID = -1L;
@@ -25,6 +26,8 @@ public class Pack implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    private String code;
 
     private Double height;
 
@@ -34,11 +37,20 @@ public class Pack implements Serializable {
 
     private Double weigth;
 
-    public Pack(PackRegistrationDTO data) {
+    @ManyToOne
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+    public Pack(PackRegistrationRequest data) {
         this.height = data.height();
         this.width = data.width();
         this.lenght = data.lenght();
         this.weigth = data.weigth();
     }
+
+    public void setDelivery(Delivery delivery){
+        this.delivery = delivery;
+    }
+    
 
 }

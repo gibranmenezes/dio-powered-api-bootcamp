@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.Delivery;
-import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.DeliveryDetailDTO;
-import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.DeliveryRegistrationDTO;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.dtos.request.DeliveryRegistrationRequest;
+import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.dtos.response.DeliveryRegistrationResponse;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.service.impl.DeliveryServiceImpl;
 import lombok.RequiredArgsConstructor;
 
@@ -34,15 +34,15 @@ public class DeliveryController {
 
     }
 
-    @PostMapping
-    public ResponseEntity register(@RequestBody DeliveryRegistrationDTO data, UriComponentsBuilder uriBuilder) {
-            var delivery = deliveryService.save(data);
-            var uri = uriBuilder.path("/deliveries/{id}")
-                        .buildAndExpand(delivery.getId())
-                        .toUri();
-            
-            return ResponseEntity.created(uri).body(new DeliveryDetailDTO(delivery));
+    @PostMapping()
+    public ResponseEntity deliveryRegistration(@RequestBody DeliveryRegistrationRequest data, UriComponentsBuilder uriBuilder){
+        var delivery = deliveryService.deliveryRegistration(data);
 
+        var uri = uriBuilder.path("/deliveries/{id}")
+                            .buildAndExpand(delivery.getId())
+                            .toUri();
+             
+        return ResponseEntity.created(uri).body(new DeliveryRegistrationResponse(delivery));
     }
 
 
