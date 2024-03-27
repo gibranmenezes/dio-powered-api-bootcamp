@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: delivery-tax-calculator
+
+server:
+  tomcat:
+    relaxed-query-chars: ['{','}']
