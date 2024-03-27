@@ -29,8 +29,8 @@ public class PackServiceImpl implements PackService{
     }
 
     @Override
-    public List<Pack> listAll() {
-        return packRepository.findAll();
+    public List<Pack> listAllByDeliveryCode(String deliveryCode) {
+        return packRepository.findByDeliveryCode(deliveryCode);
     }
     
 
@@ -55,10 +55,5 @@ public class PackServiceImpl implements PackService{
         packRepository.getReferenceById(id);
     }
 
-    @SuppressWarnings("null")
-    @Override
-    public List<Pack> findAllById(List<Long> packIds) {
-        return packRepository.findAllById(packIds);  
-    }
 
 }

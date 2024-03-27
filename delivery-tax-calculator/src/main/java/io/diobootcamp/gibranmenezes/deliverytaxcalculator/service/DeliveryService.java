@@ -1,15 +1,18 @@
 package io.diobootcamp.gibranmenezes.deliverytaxcalculator.service;
 
+import java.util.List;
+
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.Delivery;
 import io.diobootcamp.gibranmenezes.deliverytaxcalculator.domain.delivery.dtos.request.DeliveryRegistrationRequest;
 
 public interface DeliveryService {
 
-    //Delivery calculateTax(DeliveryRegistrationDTO data);
+    Delivery deliveryRegistration(DeliveryRegistrationRequest data);
 
-     Delivery save(DeliveryRegistrationRequest data);
+    List<Delivery> findAll();
 
-     Delivery deliveryRegistration(DeliveryRegistrationRequest data);
-    
+    List<Delivery> findByDeliveryCode(String deliveryCode);
+
+    List<Delivery> findById(long id);   
 
 }

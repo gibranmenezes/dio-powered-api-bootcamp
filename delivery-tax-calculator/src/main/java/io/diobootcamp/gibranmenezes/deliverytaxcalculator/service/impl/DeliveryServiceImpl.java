@@ -26,7 +26,6 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     }
 
-
     @Override
     @Transactional
     public Delivery deliveryRegistration(DeliveryRegistrationRequest data) {

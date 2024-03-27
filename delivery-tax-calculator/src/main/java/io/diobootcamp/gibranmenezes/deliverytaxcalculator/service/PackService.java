@@ -9,10 +9,8 @@ public interface PackService {
 
     Pack register(PackRegistrationRequest data);
 
-    List<Pack> listAll();
-
-    List<Pack> findAllById(List<Long> packIds);
-
+    List<Pack> listAllByDeliveryCode(String deliveryCode);
+    
     Pack findPack(long id);
 
     Pack updatePack(PackUpDateDTO data);
